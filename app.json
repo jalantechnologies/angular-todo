@@ -1,0 +1,42 @@
+{
+  "name": "boilerplate-angular",
+  "scripts": {},
+  "env": {
+    "NODE_CONFIG_ENV": {
+      "description": "Realm for loading config entries. Defaults to env.",
+      "value": "env"
+    },
+    "SENTRY_DSN": {
+      "description": "Sentry client DSN for error reporting"
+    },
+    "INTERCOM_APP_ID": {
+      "description": "intercom workspace ID for handling client interaction"
+    },
+    "MIXPANEL_TOKEN": {
+      "description": "Mixpanel token for event tracking"
+    },
+    "GA_TRACKING_ID": {
+      "description": "Google analytics tracking id"
+    },
+    "API_ENDPOINT": {
+      "description": "Endpoint for API if front-end depends on a backend"
+    },
+    "SERVER_LOG_URL": {
+      "description": "URL which can be used for logging"
+    }
+  },
+  "formation": {
+    "npm": {
+      "quantity": 1
+    },
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}

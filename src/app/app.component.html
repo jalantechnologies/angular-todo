@@ -1,0 +1,22 @@
+<app-navbar></app-navbar>
+<div class="container container-fluid container-body">
+  <main role="main">
+    <!--action-->
+    <div class="row">
+      <button class="col-md-3 btn btn-sm btn-outline-secondary" routerLink="features">
+        Features
+      </button>
+      <button class="offset-1 col-md-3 btn btn-sm btn-outline-secondary" routerLink="about-us">
+        About Us
+      </button>
+      <button [disabled]="true" class="offset-1 col-md-4 btn btn-sm btn-outline-secondary" routerLink="lazy">
+        Load Lazy Module
+      </button>
+    </div>
+    <hr>
+    <!--content-->
+    <router-outlet>
+    </router-outlet>
+  </main>
+</div>
+<app-footer></app-footer>
