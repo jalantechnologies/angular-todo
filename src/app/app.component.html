@@ -7,28 +7,34 @@
     </div>
     <!--action-->
     <div class="row mt-4">
-      <div class="col-md-4">
-        <button class="btn btn-block btn-sm btn-outline-secondary" (click)="handleOnCreateNewButtonClick()">Create New
-        </button>
-      </div>
+      <button class="col-md-2 btn btn-block btn-sm btn-outline-secondary" (click)="handleOnCreateNewButtonClick()">
+        Create New
+      </button>
+      <div class="col-md-8"></div>
+      <button class="col-md-2 btn btn-block btn-sm btn-outline-secondary" [disabled]="!selectedTodoItems.length"
+              (click)="handleOnDeleteButtonClick()">
+        Delete&nbsp;{{selectedTodoItems.length}}&nbsp;Selected
+      </button>
     </div>
     <!--status reporting-->
     <div class="row mt-4"></div>
     <!--content-->
-    <div *ngIf="!todoItems.length" class="row mt-4">
-      <div class="col-md-12 status-report info">
-        No existing TODOs found
-      </div>
-    </div>
-    <div *ngIf="todoItems.length" class="row mt-4">
+    <div *ngIf="todoItems.length;else not_found" class="row mt-4">
       <app-todo-item *ngFor="let todoItem of todoItems" [todoItem]="todoItem"
                      (edit)="handleOnTodoEditButtonClick($event)"
-                     (remove)="handleOnTodoRemoveButtonClick($event)">
+                     (remove)="handleOnTodoRemoveButtonClick($event)"
+                     (selection)="handleOnTodoSelection($event)">
       </app-todo-item>
     </div>
   </main>
 </div>
 <app-footer></app-footer>
+
+<ng-template #not_found>
+  <div class="col-md-12 status-report info">
+    {{"TODO_NOT_FOUND" | translate}}
+  </div>
+</ng-template>
 
 <ng-template #modalCreateNewTodo let-c='close'>
   <div class="modal-header">

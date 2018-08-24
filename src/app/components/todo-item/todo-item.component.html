@@ -5,9 +5,10 @@
         <span class="font-weight-bold">{{todoItem.title}}</span>
       </div>
       <div class="col-md-2">
-        <button class="btn btn-sm" (click)="handleOnEditButtonClick()"><i class="fa fa-pencil"></i>
+        <button class="btn btn-sm todo-action" (click)="handleOnEditButtonClick($event)"><i class="fa fa-pencil"></i>
         </button>
-        <button class="offset-1 btn btn-sm" (click)="handleOnRemoveButtonClick()"><i class="fa fa-times"></i></button>
+        <button class="offset-1 btn btn-sm todo-action" (click)="handleOnRemoveButtonClick($event)"><i
+          class="fa fa-times"></i></button>
       </div>
     </div>
     <div *ngIf="todoItem.desc" class="row">

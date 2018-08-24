@@ -18,6 +18,7 @@ const NG_MODAL_OPTS: NgbModalOptions = {
 export class AppComponent implements OnInit {
   @ViewChild('modalCreateNewTodo') modalCreateNewTodo: ElementRef;
   todoItems = [];
+  selectedTodoItems = [];
   todoFormGroup = new FormGroup({
     title: new FormControl('', [Validators.required]),
     desc: new FormControl(''),
@@ -39,6 +40,14 @@ export class AppComponent implements OnInit {
     this.openDialog(true);
   }
 
+  handleOnDeleteButtonClick() {
+    this.selectedTodoItems.forEach(todo => {
+      this.todoService.delete(todo.id);
+    });
+    // reset selected
+    this.selectedTodoItems = [];
+  }
+
   handleOnTodoEditButtonClick(todo: TodoItemModel) {
     this.todoUpdate = true;
     this.todoFormGroup.patchValue({
@@ -47,6 +56,16 @@ export class AppComponent implements OnInit {
       id: todo.id
     });
     this.openDialog();
+  }
+
+  handleOnTodoSelection(evt: { todo: TodoItemModel, selected: boolean }) {
+    const {todo, selected} = evt;
+    if (selected) {
+      this.selectedTodoItems.push(todo);
+    } else {
+      const item = this.selectedTodoItems.find(todoItem => todoItem.id === todo.id);
+      this.selectedTodoItems.splice(this.selectedTodoItems.indexOf(item), 1);
+    }
   }
 
   private openDialog(reset?: boolean) {
@@ -63,6 +82,8 @@ export class AppComponent implements OnInit {
 
   handleOnTodoRemoveButtonClick(todo: TodoItemModel) {
     this.todoService.delete(todo.id);
+    // reset selected
+    this.selectedTodoItems = [];
   }
 
   handleOnTodoFormSubmit() {
