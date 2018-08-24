@@ -2,8 +2,8 @@
 <div class="container container-fluid container-body">
   <main role="main">
     <!--title-->
-    <div class="col-md-12 text-center title">
-      <h5>{{"TODO_WELCOME" | translate}}</h5>
+    <div class="row">
+      <h5 class="col-md-12 text-center title">{{"TODO_WELCOME" | translate}}</h5>
     </div>
     <!--action-->
     <div class="row mt-4">
@@ -15,7 +15,12 @@
     <!--status reporting-->
     <div class="row mt-4"></div>
     <!--content-->
-    <div class="row mt-4">
+    <div *ngIf="!todoItems.length" class="row mt-4">
+      <div class="col-md-12 status-report info">
+        No existing TODOs found
+      </div>
+    </div>
+    <div *ngIf="todoItems.length" class="row mt-4">
       <app-todo-item *ngFor="let todoItem of todoItems" [todoItem]="todoItem"
                      (edit)="handleOnTodoEditButtonClick($event)"
                      (remove)="handleOnTodoRemoveButtonClick($event)">

@@ -14,3 +14,17 @@ body {
   padding: 60px 15px 0;
   margin-top: 60px;
 }
+
+/* status report
+-------------------------------------------------- */
+
+.status-report {
+  text-align: center;
+  padding: 15px;
+}
+
+.status-report.info {
+  background-color: whitesmoke;
+  border: 2px solid #eeeeee;
+  color: gray;
+}
