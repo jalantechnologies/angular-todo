@@ -1,22 +1,78 @@
 <app-navbar></app-navbar>
 <div class="container container-fluid container-body">
   <main role="main">
-    <!--action-->
-    <div class="row">
-      <button class="col-md-3 btn btn-sm btn-outline-secondary" routerLink="features">
-        Features
-      </button>
-      <button class="offset-1 col-md-3 btn btn-sm btn-outline-secondary" routerLink="about-us">
-        About Us
-      </button>
-      <button [disabled]="true" class="offset-1 col-md-4 btn btn-sm btn-outline-secondary" routerLink="lazy">
-        Load Lazy Module
-      </button>
+    <!--title-->
+    <div class="col-md-12 text-center title">
+      <h5>{{"TODO_WELCOME" | translate}}</h5>
     </div>
-    <hr>
+    <!--action-->
+    <div class="row mt-4">
+      <div class="col-md-4">
+        <button class="btn btn-block btn-sm btn-outline-secondary" (click)="handleOnCreateNewButtonClick()">Create New
+        </button>
+      </div>
+    </div>
+    <!--status reporting-->
+    <div class="row mt-4"></div>
     <!--content-->
-    <router-outlet>
-    </router-outlet>
+    <div class="row mt-4">
+      <app-todo-item *ngFor="let todoItem of todoItems" [todoItem]="todoItem"
+                     (edit)="handleOnTodoEditButtonClick($event)"
+                     (remove)="handleOnTodoRemoveButtonClick($event)">
+      </app-todo-item>
+    </div>
   </main>
 </div>
 <app-footer></app-footer>
+
+<ng-template #modalCreateNewTodo let-c='close'>
+  <div class="modal-header">
+    <h5 *ngIf="!todoUpdate" class="modal-title">{{"TODO_ADD_NEW" | translate}}</h5>
+    <h5 *ngIf="todoUpdate" class="modal-title">{{"TODO_UPDATE" | translate}}</h5>
+    <button class="close" type="button" data-dismiss="modal" (click)="handleDialogCloseButtonClick()">&times;</button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="todoFormGroup" (ngSubmit)="handleOnTodoFormSubmit()">
+      <!--content-->
+      <div>
+        <div class="row">
+          <div class="col-md-12 form-group">
+            <label class="col-md-12 control-label" for="title"></label>
+            <div class="col-md-12">
+              <input class="form-control" required id="title" formControlName="title" name="title" type="text"
+                     placeholder="Enter title">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 form-group">
+            <label class="col-md-12 control-label" for="desc"></label>
+            <div class="col-md-12">
+              <input class="form-control" id="desc" formControlName="desc" name="desc" type="text"
+                     placeholder="Enter optional description">
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--status reporting-->
+      <div class="row">
+        <div class="col-md-12">
+          <span class="text-center text-danger" *ngIf="todoOperationViewState.isFinishedWithError">
+            {{"TODO_OPR_ERROR"| translate}}
+          </span>
+        </div>
+      </div>
+      <!--action-->
+      <div class="row">
+        <div class="col-md-12 form-group text-center">
+          <button type="submit" class="btn btn-info btn-md"
+                  [disabled]="!todoFormGroup.valid || todoOperationViewState.isLoading">
+            {{todoUpdate ? "Update TODO" : "Create TODO"}}&nbsp;
+            <i class="fa fa-spinner fa-spin" *ngIf="todoOperationViewState.isLoading"></i></button>
+        </div>
+      </div>
+    </form>
+    <div class="row">
+    </div>
+  </div>
+</ng-template>

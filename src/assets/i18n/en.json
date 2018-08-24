@@ -1,3 +1,6 @@
 {
-  "HELLO_WORLD": "Hello World"
+  "TODO_WELCOME": "This is a sample TODO app. Use CREATE NEW button to get started",
+  "TODO_ADD_NEW": "Create a new TODO",
+  "TODO_UPDATE": "Update existing TODO",
+  "TODO_OPR_ERROR": "TODO operation was not successful"
 }

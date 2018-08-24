@@ -5,12 +5,6 @@
     "paths": {
       "@config": [
         "config.ts"
-      ],
-      "@services/*": [
-        "app/services/*"
-      ],
-      "@shared/*": [
-        "app/shared/*"
       ]
     },
     "outDir": "./dist/out-tsc",

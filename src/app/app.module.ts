@@ -1,21 +1,21 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {ErrorHandler, NgModule} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import * as Raven from 'raven-js';
 import {LoggerModule, NgxLoggerLevel} from 'ngx-logger';
-import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import {TranslateModule, TranslateLoader, TranslateService} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {Angulartics2Module} from 'angulartics2';
 import {Angulartics2Mixpanel} from 'angulartics2/mixpanel';
 import {Angulartics2GoogleAnalytics} from 'angulartics2/ga';
-import {ModalModule} from 'ngx-bootstrap';
+import {NgbModule, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
 import CONFIG from '@config';
 import {AppComponent} from './app.component';
 import {AppRouting} from './app.routing';
-import {NavbarComponent, FooterComponent} from './components';
-import {AboutUsComponent, FeaturesComponent} from './pages';
-import {IntercomService} from './services';
+import {NavbarComponent, FooterComponent, TodoItemComponent} from './components';
+import {IntercomService, TodoService} from './services';
 
 // build declarations
 const declarations = [
@@ -23,9 +23,8 @@ const declarations = [
   AppComponent,
   NavbarComponent,
   FooterComponent,
+  TodoItemComponent
   // app pages
-  AboutUsComponent,
-  FeaturesComponent
 ];
 
 function createTranslateLoader(http: HttpClient) {
@@ -50,8 +49,10 @@ class RavenErrorHandler implements ErrorHandler {
     AppRouting,
     // browser module
     BrowserModule,
-    // bootstrap modal module
-    ModalModule.forRoot(),
+    // bootstrap
+    NgbModule,
+    // for advanced form directives
+    ReactiveFormsModule,
     // logging
     LoggerModule.forRoot({
       level: NgxLoggerLevel.DEBUG,
@@ -78,13 +79,22 @@ class RavenErrorHandler implements ErrorHandler {
       provide: ErrorHandler,
       useClass: RavenErrorHandler
     },
-    IntercomService
+    // bootstrap modal service
+    NgbActiveModal,
+    // app services
+    IntercomService,
+    TodoService
   ],
   bootstrap: [AppComponent]
 })
 
 export class AppModule {
-  constructor() {
+  constructor(public translate: TranslateService) {
+    // for initializing translation service
+    translate.addLangs(['en', 'de']);
+    translate.setDefaultLang('en');
+    const browserLang = translate.getBrowserLang();
+    translate.use(browserLang.match(/en|de/) ? browserLang : 'en');
     // for initializing mixpanel
     // mixpanel.init(CONFIG.mixpanelToken);
     // for initializing google analytics
